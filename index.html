@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Eschool pacing</title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        When stuff was assigned: <input type="date" v-model="start">
+        When stuff is due: <input type="date" v-model="date"></input>
+        <table>
+            <tr>
+                <th>Class name</th>
+                <th>Assignments done</th>
+                <th>Total asignments</th>
+                <th>Done</th>
+                <th>Target</th>
+            </tr>
+            <tr v-for="(Class, index) in classes">
+                <th><input v-model="Class.name"></th>
+                <th><input type="number" v-model.number="Class.done" v-bind:max="Class.total" min=0></th>
+                <th><input type="number" v-model.number="Class.total" min=1></th>
+                <th>{{ percentage(Class) }}%</th>
+                <th>{{ target() }}%</th>
+                <th v-on:click="remove(index)">Delete</th>
+            </tr>
+        </table>
+        <button v-on:click="addNew">New class</button>
+        Do {{ assignments }} assignments per day
+    </div>
+    <script src="sketch.js"></script>
+</body>
+
+</html>
