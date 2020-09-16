@@ -5,7 +5,7 @@
 <head>
     <title>Eschool pacing</title>
     <meta charset="utf-8">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <link type="text/css" rel="stylesheet" href="style.css">
 </head>
 
@@ -26,8 +26,15 @@
                 <th><input type="number" v-model.number="Class.done" v-bind:max="Class.total" min=0></th>
                 <th><input type="number" v-model.number="Class.total" min=1></th>
                 <th>{{ percentage(Class) }}%</th>
-                <th>{{ target() }}%</th>
+                <th>{{ target }}%</th>
                 <th v-on:click="remove(index)">Delete</th>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <th>{{ totalDone }}</th>
+                <th>{{ totalAssignments }}</th>
+                <th>{{ totalPercent }}%</th>
+                <th>{{ target }}%</th>
             </tr>
         </table>
         <button v-on:click="addNew">New class</button>
