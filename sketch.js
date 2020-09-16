@@ -34,9 +34,6 @@ new Vue({
     },
     methods: {
         percentage: function (Class) {
-            if (Class.total === 0) {
-                return 0;
-            }
             return Math.round(Class.done / Class.total * 10000) / 100;
         },
         addNew: function () {
