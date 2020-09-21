@@ -1,4 +1,4 @@
-new Vue({
+const vm = new Vue({
     el: "#app",
     data: JSON.parse(localStorage.getItem("data")) || {
         date: Date.now(),
@@ -11,9 +11,10 @@ new Vue({
     },
     computed: {
         assignments: function () {
-            let timeLeft = (new Date(this.date).getTime() - Date.now()) * 5 / 7;
+            let timeLeft = days(new Date(Date.now()), new Date(this.date));
+            console.log(timeLeft);
             let todo = this.totalAssignments - this.totalDone;
-            return Math.round(86400000 / (timeLeft / todo) * 100) / 100;
+            return Math.round((todo / timeLeft) * 100) / 100;
         },
         totalDone: function () {
             return this.classes.reduce((acc, v) => {
@@ -55,3 +56,16 @@ new Vue({
         }));
     }
 });
+
+// https://stackoverflow.com/questions/37069186/calculate-working-days-between-two-dates-in-javascript-excepts-holidays
+function days(startDate, endDate) {
+    var count = 0;
+    var curDate = startDate;
+    while (curDate <= endDate) {
+        var dayOfWeek = curDate.getDay();
+        if (!((dayOfWeek == 6) || (dayOfWeek == 0)))
+            count++;
+        curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+}
