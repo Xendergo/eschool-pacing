@@ -20,6 +20,7 @@
                 <th>Total asignments</th>
                 <th>Done</th>
                 <th>Target</th>
+                <th>Todo</th>
             </tr>
             <tr v-for="(Class, index) in classes">
                 <th><input v-model="Class.name"></th>
@@ -27,6 +28,7 @@
                 <th><input type="number" v-model.number="Class.total" min=1></th>
                 <th>{{ percentage(Class) }}%</th>
                 <th>{{ target }}%</th>
+                <th>{{ Class.todo }}</th>
                 <th v-on:click="remove(index)">Delete</th>
             </tr>
             <tr>

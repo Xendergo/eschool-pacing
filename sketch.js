@@ -2,11 +2,12 @@ const vm = new Vue({
     el: "#app",
     data: JSON.parse(localStorage.getItem("data")) || {
         date: Date.now(),
-        start: Date.now(),
+        start: Date.now()+1000*60*60*24,
         classes: [{
             name: "Name",
             done: 0,
-            total: 1
+            total: 1,
+            todo: 0
         }]
     },
     computed: {
@@ -37,22 +38,47 @@ const vm = new Vue({
         percentage: function (Class) {
             return Math.round(Class.done / Class.total * 10000) / 100;
         },
+        percentageAndTodo: function(Class) {
+            return (Class.done+Class.todo)/Class.total;
+        },
         addNew: function () {
             this.classes.push({
                 name: "Name",
                 done: 0,
-                total: 1
+                total: 1,
+                todo: 0
             });
         },
         remove: function (i) {
             this.classes.splice(i, 1);
+        },
+        todo: function () {
+            if (this.assignments < 100) {
+                for (let i = 0; i < this.classes.length; i++) {
+                    this.classes[i].todo = 0;
+                }
+                    
+                for (let i = 0; i < this.assignments; i++) {
+                    minVal = Infinity;
+                    min = 0;
+                    for (let j = 0; j < this.classes.length; j++) {
+                        const v = this.percentageAndTodo(this.classes[j]);
+                        if (v < minVal) {
+                            min = j;
+                            minVal = v;
+                        }
+                    }
+
+                    this.classes[min].todo++;
+                }
+            }
         }
     },
     updated: function () {
         localStorage.setItem("data", JSON.stringify({
             date: this.date,
             start: this.start,
-            classes: this.classes
+            classes: this.classes,
         }));
     }
 });
@@ -69,3 +95,7 @@ function days(startDate, endDate) {
     }
     return count;
 }
+
+setInterval(() => {
+    vm.todo();
+}, 1000);
