@@ -7,16 +7,11 @@ const vm = new Vue({
             name: "Name",
             done: 0,
             total: 1,
-            todo: 0
+            todo: 0,
+            endDate: new Date().toString()
         }]
     },
     computed: {
-        assignments: function () {
-            let timeLeft = days(new Date(Date.now()), new Date(this.date));
-            console.log(timeLeft);
-            let todo = this.totalAssignments - this.totalDone;
-            return Math.round((todo / timeLeft) * 100) / 100;
-        },
         totalDone: function () {
             return this.classes.reduce((acc, v) => {
                 return acc + v.done;
@@ -29,9 +24,6 @@ const vm = new Vue({
         },
         totalPercent: function () {
             return Math.round(this.totalDone / this.totalAssignments * 10000) / 100;
-        },
-        target: function () {
-            return Math.round((Date.now() - new Date(this.start).getTime()) / (new Date(this.date).getTime() - new Date(this.start).getTime()) * 10000) / 100;
         }
     },
     methods: {
@@ -53,32 +45,14 @@ const vm = new Vue({
             this.classes.splice(i, 1);
         },
         todo: function () {
-            if (this.assignments < 100) {
-                for (let i = 0; i < this.classes.length; i++) {
-                    this.classes[i].todo = 0;
-                }
-                    
-                for (let i = 0; i < this.assignments; i++) {
-                    minVal = Infinity;
-                    min = 0;
-                    for (let j = 0; j < this.classes.length; j++) {
-                        const v = this.percentageAndTodo(this.classes[j]);
-                        if (v < minVal) {
-                            min = j;
-                            minVal = v;
-                        }
-                    }
-
-                    this.classes[min].todo++;
-                }
+            for (let i = 0; i < this.classes.length; i++) {
+                this.classes[i].todo = (this.classes[i].total - this.classes[i].done) / days(new Date(), new Date(this.classes[i].endDate));
             }
         }
     },
     updated: function () {
         localStorage.setItem("data", JSON.stringify({
-            date: this.date,
-            start: this.start,
-            classes: this.classes,
+           classes: this.classes,
         }));
     }
 });
