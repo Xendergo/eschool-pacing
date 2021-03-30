@@ -46,7 +46,7 @@ const vm = new Vue({
         },
         todo: function () {
             for (let i = 0; i < this.classes.length; i++) {
-                this.classes[i].todo = 0.01 * Math.round(100 * (this.classes[i].total - this.classes[i].done) / days(new Date(), new Date(this.classes[i].endDate)));
+                this.classes[i].todo = Math.round(100 * (this.classes[i].total - this.classes[i].done) / days(new Date(), new Date(this.classes[i].endDate))) / 100;
             }
         }
     },
