@@ -24,6 +24,11 @@ const vm = new Vue({
         },
         totalPercent: function () {
             return Math.round(this.totalDone / this.totalAssignments * 10000) / 100;
+        },
+        totalTodo: function () {
+            return Math.round(100 * this.classes.reduce((acc, v) => {
+                return acc + v.todo;
+            }, 0)) / 100;
         }
     },
     methods: {
