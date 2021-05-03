@@ -38,6 +38,17 @@
             </tr>
         </table>
         <button v-on:click="addNew">New class</button>
+        <table>
+            <tr>
+                <th>Vacation date</th>
+                <th>Delete button</th>
+            </tr>
+            <tr v-for="(vacationDate, index) in vacations">
+                <th><input type="date" v-model="vacations[index]"></th>
+                <th v-on:click="removeVacation(index)">Delete</th>
+            </tr>
+        </table>
+        <button v-on:click="newVacation">New vacation</button>
     </div>
     <script src="sketch.js"></script>
 </body>
