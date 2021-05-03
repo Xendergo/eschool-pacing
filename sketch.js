@@ -73,6 +73,7 @@ const vm = new Vue({
     updated: function () {
         localStorage.setItem("data", JSON.stringify({
             classes: this.classes,
+            vacations: this.vacations
         }));
     }
 });
